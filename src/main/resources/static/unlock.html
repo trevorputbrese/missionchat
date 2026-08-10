@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unlock MissionChat</title>
+    <link rel="stylesheet" href="/unlock.css?v=20260325-01">
+</head>
+<body>
+<div class="classification-banner">SENSITIVE BUT UNCLASSIFIED</div>
+
+<main class="unlock-shell">
+    <section class="unlock-card">
+        <h1>MissionChat Access</h1>
+        <p>Enter the shared password to continue.</p>
+
+        <form method="post" action="/unlock" class="unlock-form">
+            <label for="passwordInput">Password</label>
+            <input id="passwordInput" name="password" type="password" autocomplete="current-password" required>
+
+            <p id="errorText" class="error-text" aria-live="polite"></p>
+            <button type="submit">Unlock</button>
+        </form>
+    </section>
+</main>
+
+<script>
+    (function () {
+        const params = new URLSearchParams(window.location.search);
+        const error = params.get("error");
+
+        const errorText = document.getElementById("errorText");
+        const passwordInput = document.getElementById("passwordInput");
+
+        if (error === "1") {
+            errorText.textContent = "Incorrect password. Please try again.";
+        }
+
+        passwordInput.focus();
+    })();
+</script>
+</body>
+</html>

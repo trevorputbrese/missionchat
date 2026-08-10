@@ -1,0 +1,11 @@
+---
+applications:
+- name: missionchat
+  buildpacks:
+  - java_buildpack_offline
+  path: target/missionchat-0.0.1-SNAPSHOT.jar
+  services:
+  - gpt-oss-mission-chat
+  - postgres-mcp-server 
+  - missionchat-embeddings-model
+  - missionchat-vectordb     

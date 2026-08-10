@@ -1,0 +1,5 @@
+/.vscode/
+/z-styling/
+/buildplan/
+/z-ragdocs/
+.env.local

@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: missionchat
+  web:
+    resources:
+      cache:
+        cachecontrol:
+          no-cache: true
+          no-store: true
+          must-revalidate: true
+  servlet:
+    session:
+      timeout: 2h
+  ai:
+    openai:
+      base-url: ${SPRING_AI_OPENAI_BASE_URL:https://api.openai.com/v1}
+      api-key: ${SPRING_AI_OPENAI_API_KEY:not-configured}
+      chat:
+        completions-path: ${SPRING_AI_OPENAI_CHAT_COMPLETIONS_PATH:/chat/completions}
+        options:
+          model: ${SPRING_AI_OPENAI_CHAT_OPTIONS_MODEL:gpt-4o-mini}
+          temperature: ${SPRING_AI_OPENAI_CHAT_OPTIONS_TEMPERATURE:0.2}
+
+missionchat:
+  auth:
+    shared-password: ${MISSIONCHAT_SHARED_PASSWORD:}
+
+documentschat:
+  rag:
+    table-name: ${DOCUMENTSCHAT_RAG_TABLE_NAME:localdocs}
+    top-k: ${DOCUMENTSCHAT_RAG_TOP_K:10}
+    chunk-size: ${DOCUMENTSCHAT_RAG_CHUNK_SIZE:800}
+    min-chunk-size-chars: ${DOCUMENTSCHAT_RAG_MIN_CHUNK_SIZE_CHARS:120}
+    min-chunk-length-to-embed: ${DOCUMENTSCHAT_RAG_MIN_CHUNK_LENGTH_TO_EMBED:5}
+    max-num-chunks: ${DOCUMENTSCHAT_RAG_MAX_NUM_CHUNKS:10000}
+    embeddings-path: ${DOCUMENTSCHAT_RAG_EMBEDDINGS_PATH:}

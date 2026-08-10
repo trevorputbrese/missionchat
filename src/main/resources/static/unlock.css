@@ -1,0 +1,113 @@
+:root {
+    --banner-green: #0a8f1b;
+    --bg: #eef1f5;
+    --card: #f9fbfd;
+    --line: #d2dae5;
+    --text: #29394a;
+    --muted: #5e6f84;
+    --action: #143f6b;
+    --action-hover: #1c568f;
+    --error: #b13434;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    min-height: 100%;
+    font-family: "Public Sans", "Source Sans 3", "Trebuchet MS", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+.classification-banner {
+    height: 17px;
+    background: var(--banner-green);
+    color: #fff;
+    text-align: center;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 17px;
+    text-transform: uppercase;
+}
+
+.unlock-shell {
+    min-height: calc(100vh - 17px);
+    display: grid;
+    place-items: center;
+    padding: 20px;
+}
+
+.unlock-card {
+    width: min(430px, 100%);
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 26px 24px 22px;
+    box-shadow: 0 10px 24px rgba(44, 63, 84, 0.08);
+}
+
+.unlock-card h1 {
+    margin: 0 0 8px;
+    font-size: 1.55rem;
+    color: #1f3652;
+}
+
+.unlock-card p {
+    margin: 0 0 20px;
+    font-size: 0.95rem;
+    color: var(--muted);
+}
+
+.unlock-form {
+    display: grid;
+    gap: 10px;
+}
+
+.unlock-form label {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #30465f;
+}
+
+.unlock-form input {
+    height: 42px;
+    border: 1px solid #c2ccda;
+    border-radius: 8px;
+    padding: 0 12px;
+    font-size: 0.95rem;
+    color: var(--text);
+    background: #fff;
+}
+
+.unlock-form input:focus-visible {
+    outline: 2px solid #8eb4de;
+    outline-offset: 1px;
+}
+
+.error-text {
+    min-height: 1.1rem;
+    margin: 2px 0 0;
+    font-size: 0.84rem;
+    color: var(--error);
+}
+
+.unlock-form button {
+    margin-top: 2px;
+    height: 40px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--action);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+.unlock-form button:hover {
+    background: var(--action-hover);
+}

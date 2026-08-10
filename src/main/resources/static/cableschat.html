@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CablesChat</title>
+    <link rel="stylesheet" href="/cableschat.css?v=20260325-01">
+</head>
+<body>
+<div class="classification-banner">SENSITIVE BUT UNCLASSIFIED</div>
+<div class="cableschat-layout">
+    <aside class="sidebar">
+        <div class="sidebar-top">
+            <a class="logo-link" href="/" aria-label="Back to home">
+                <span class="logo-circle">
+                    <svg viewBox="0 0 64 64" role="img" aria-hidden="true">
+                        <circle cx="32" cy="32" r="30"></circle>
+                        <path d="M16 33 L22 26 L27 34 L32 21 L37 39 L42 27 L48 33"></path>
+                    </svg>
+                </span>
+                <span class="logo-text">CablesChat</span>
+            </a>
+        </div>
+
+        <nav class="sidebar-nav" aria-label="CablesChat sections">
+            <a href="/missionchat" class="nav-item">
+                <span class="nav-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M20 15a2 2 0 0 1-2 2H8l-4 4V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                </span>
+                <span class="nav-label">MissionChat</span>
+            </a>
+            <a href="/documentchat" class="nav-item">
+                <span class="nav-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                        <path d="M14 3v6h6"></path>
+                        <path d="M8 13h8M8 17h6"></path>
+                    </svg>
+                </span>
+                <span class="nav-label">DocumentsChat</span>
+            </a>
+            <a href="/cableschat" class="nav-item active">
+                <span class="nav-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="6" cy="12" r="2"></circle>
+                        <circle cx="18" cy="7" r="2"></circle>
+                        <circle cx="18" cy="17" r="2"></circle>
+                        <path d="M8 12h8M16.6 8.4 8 11M16.6 15.6 8 13"></path>
+                    </svg>
+                </span>
+                <span class="nav-label">CablesChat</span>
+            </a>
+            <a href="/aisandbox" class="nav-item">
+                <span class="nav-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M9 3h6"></path>
+                        <path d="M10 3v5l-5 8a3 3 0 0 0 2.6 4.5h8.8A3 3 0 0 0 19 16l-5-8V3"></path>
+                        <path d="M9 14h6"></path>
+                    </svg>
+                </span>
+                <span class="nav-label">AI Sandbox</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="/" class="nav-item">
+                <span class="nav-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M3 10.5 12 3l9 7.5"></path>
+                        <path d="M5 9.5V21h14V9.5"></path>
+                        <path d="M10 21v-6h4v6"></path>
+                    </svg>
+                </span>
+                <span class="nav-label">Home</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="9"></circle>
+                        <path d="M9.3 9a2.7 2.7 0 1 1 5.2 1c0 2-2.1 2.1-2.5 3.5"></path>
+                        <circle cx="12" cy="17" r="1"></circle>
+                    </svg>
+                </span>
+                <span class="nav-label">Support</span>
+            </a>
+        </div>
+    </aside>
+
+    <section class="workspace">
+        <header class="workspace-topbar">
+            <div class="topbar-group">
+                <button class="icon-button" type="button" aria-label="Open menu">
+                    <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+                </button>
+                <button class="icon-button" type="button" aria-label="Start new chat">
+                    <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+                </button>
+                <button class="icon-button" type="button" aria-label="History">
+                    <svg viewBox="0 0 24 24"><path d="M12 7v6l4 2"></path><circle cx="12" cy="12" r="8"></circle></svg>
+                </button>
+            </div>
+            <div class="topbar-group">
+                <button class="icon-button" type="button" aria-label="Like">
+                    <svg viewBox="0 0 24 24"><path d="M9 11V6l4-2v7h6l-1 9H8l1-9z"></path></svg>
+                </button>
+                <button class="icon-button" type="button" aria-label="Dislike">
+                    <svg viewBox="0 0 24 24"><path d="M15 13v5l-4 2v-7H5l1-9h10l-1 9z"></path></svg>
+                </button>
+                <button class="icon-button" type="button" aria-label="Information">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 10v7"></path><circle cx="12" cy="7" r="1"></circle></svg>
+                </button>
+            </div>
+        </header>
+
+        <main class="workspace-main">
+            <section class="chat-intro" id="chatIntro">
+                <span class="intro-icon" aria-hidden="true">
+                    <svg viewBox="0 0 64 64">
+                        <circle cx="32" cy="32" r="30"></circle>
+                        <path d="M20 33l6-7 6 7 6-7 6 7-6 7-6-7-6 7z"></path>
+                    </svg>
+                </span>
+                <h1>CablesChat</h1>
+                <p>I read cables traffic daily, so you don't have to - just ask away.</p>
+            </section>
+
+            <section class="mcp-status-bar" id="mcpStatusBar" aria-live="polite" aria-label="MCP server status"></section>
+
+            <section class="chat-status" id="chatStatus" aria-live="polite"></section>
+
+            <section class="chat-thread" id="chatThread" aria-live="polite"></section>
+
+            <section class="suggestions" id="chatSuggestions" aria-label="Sample prompts">
+                <button type="button" class="suggestion-card">
+                    <span class="quote-mark">"</span>
+                    What does CablesChat know? Provide me with a summary of its primary sources, listing out all the
+                    Department-specific data.
+                </button>
+                <button type="button" class="suggestion-card">
+                    <span class="quote-mark">"</span>
+                    Provide a comprehensive list of Executive Orders and Action Memoranda signed by President Donald
+                    Trump in 2025, along with summaries for each.
+                </button>
+                <button type="button" class="suggestion-card">
+                    <span class="quote-mark">"</span>
+                    Provide me a list of items from the Cables Department Newsroom from this week with a summary of all
+                    items at the top.
+                </button>
+                <button type="button" class="suggestion-card">
+                    <span class="quote-mark">"</span>
+                    What is the allowable amount for seat selection charges on travel?
+                </button>
+            </section>
+
+            <section class="composer-shell" id="composerShell" aria-label="Message composer">
+                <textarea id="composerInput" aria-label="Question input" placeholder="Enter your question or request..."></textarea>
+                <div class="composer-actions">
+                    <div class="composer-left">
+                        <button class="composer-btn" type="button" aria-label="Add attachment">
+                            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+                        </button>
+                        <button class="composer-btn" type="button" aria-label="Search">
+                            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"></circle><path d="M16 16l4 4"></path></svg>
+                        </button>
+                    </div>
+                    <div class="composer-right">
+                        <button class="composer-btn" type="button" aria-label="Voice input">
+                            <svg viewBox="0 0 24 24"><path d="M12 5a3 3 0 013 3v4a3 3 0 01-6 0V8a3 3 0 013-3z"></path><path d="M7 11a5 5 0 0010 0"></path><path d="M12 16v3"></path></svg>
+                        </button>
+                        <button class="composer-btn send-btn" id="sendButton" type="button" aria-label="Send">
+                            <svg viewBox="0 0 24 24"><path d="M5 4l15 8-15 8 3-8-3-8z"></path></svg>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </section>
+</div>
+<script src="/cableschat.js?v=20260325-01"></script>
+</body>
+</html>
