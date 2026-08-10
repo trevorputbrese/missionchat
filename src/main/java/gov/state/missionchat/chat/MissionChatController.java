@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,11 @@ public class MissionChatController {
 
     public MissionChatController(MissionChatService missionChatService) {
         this.missionChatService = missionChatService;
+    }
+
+    @GetMapping("/model/status")
+    public ResponseEntity<MissionModelStatusResponse> modelStatus() {
+        return ResponseEntity.ok(this.missionChatService.modelStatus());
     }
 
     @PostMapping

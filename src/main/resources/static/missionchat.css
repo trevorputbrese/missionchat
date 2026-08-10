@@ -70,6 +70,7 @@ body {
 .logo-circle {
     width: 52px;
     height: 52px;
+    flex: 0 0 52px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -88,7 +89,7 @@ body {
 
 .logo-text {
     color: #355071;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 700;
     letter-spacing: 0.01em;
 }
@@ -112,7 +113,7 @@ body {
     border: 1px solid transparent;
     color: #415061;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 600;
     letter-spacing: 0.01em;
     transition: background-color 120ms ease-in-out, border-color 120ms ease-in-out, color 120ms ease-in-out;
@@ -144,14 +145,14 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     flex: 0 0 auto;
 }
 
 .nav-icon svg {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     fill: none;
     stroke: currentColor;
     stroke-width: 1.9;
@@ -167,6 +168,34 @@ body {
 .nav-label {
     flex: 1;
     text-align: left;
+}
+
+body.sidebar-collapsed .missionchat-layout {
+    grid-template-columns: 86px minmax(0, 1fr);
+    --chat-content-width: min(1160px, calc(100vw - 140px));
+}
+
+body.sidebar-collapsed .sidebar .logo-text,
+body.sidebar-collapsed .sidebar .nav-label {
+    display: none;
+}
+
+body.sidebar-collapsed .sidebar .logo-link {
+    justify-content: center;
+    padding: 8px 4px;
+}
+
+body.sidebar-collapsed .sidebar .nav-item {
+    justify-content: center;
+    padding: 0;
+}
+
+body.sidebar-collapsed .sidebar .sidebar-nav {
+    padding: 6px;
+}
+
+body.sidebar-collapsed .sidebar .sidebar-footer {
+    padding: 8px 6px;
 }
 
 .workspace {
@@ -190,27 +219,46 @@ body {
     gap: 8px;
 }
 
-.icon-button {
-    width: 26px;
-    height: 26px;
+.sidebar-toggle-link {
     border: 0;
-    border-radius: 7px;
     background: transparent;
+    color: #1f4774;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: #6f7b8a;
-    cursor: default;
+    padding: 0;
+    margin: 0;
+    font-size: 0;
+    line-height: 1;
+    appearance: none;
+    box-shadow: none;
+    cursor: pointer;
+    transition: color 120ms ease-in-out, transform 120ms ease-in-out;
 }
 
-.icon-button svg {
-    width: 18px;
-    height: 18px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+.sidebar-toggle-link::before {
+    content: "\2630";
+    font-size: 28px;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.sidebar-toggle-link:hover {
+    color: #183f68;
+}
+
+.sidebar-toggle-link:active {
+    transform: translateY(1px);
+}
+
+.sidebar-toggle-link:focus-visible {
+    outline: 2px solid #7ea5d1;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+.sidebar-toggle-link[aria-expanded="false"] {
+    color: #355980;
 }
 
 .workspace-main {
@@ -268,6 +316,44 @@ body {
     display: none;
 }
 
+.model-status-bar {
+    width: var(--chat-content-width);
+    min-height: 34px;
+    border: 1px solid #d8dde4;
+    border-radius: 10px;
+    background: #f3f6f9;
+    padding: 6px 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.model-heading {
+    font-size: 12px;
+    font-weight: 700;
+    color: #6e7f94;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.model-chip {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #bdd6c0;
+    border-radius: 999px;
+    background: #eaf7ec;
+    color: #3f6d47;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 9px;
+}
+
+.model-chip.unavailable {
+    border-color: #e8d296;
+    background: #fff7df;
+    color: #826314;
+}
+
 .chat-status {
     width: var(--chat-content-width);
     min-height: 18px;
@@ -306,6 +392,113 @@ body {
     font-size: 14px;
     line-height: 1.45;
     white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.chat-message.markdown {
+    white-space: normal;
+}
+
+.chat-message.markdown > :first-child {
+    margin-top: 0;
+}
+
+.chat-message.markdown > :last-child {
+    margin-bottom: 0;
+}
+
+.chat-message.markdown p,
+.chat-message.markdown ul,
+.chat-message.markdown ol,
+.chat-message.markdown pre,
+.chat-message.markdown blockquote,
+.chat-message.markdown table,
+.chat-message.markdown h1,
+.chat-message.markdown h2,
+.chat-message.markdown h3,
+.chat-message.markdown h4 {
+    margin: 8px 0;
+}
+
+.chat-message.markdown h1 {
+    font-size: 1.08rem;
+}
+
+.chat-message.markdown h2 {
+    font-size: 1.02rem;
+}
+
+.chat-message.markdown h3,
+.chat-message.markdown h4 {
+    font-size: 0.98rem;
+}
+
+.chat-message.markdown ul,
+.chat-message.markdown ol {
+    padding-left: 20px;
+}
+
+.chat-message.markdown li + li {
+    margin-top: 4px;
+}
+
+.chat-message.markdown code {
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 0.92em;
+    background: #e6ebf2;
+    color: #2f445e;
+    border-radius: 4px;
+    padding: 1px 5px;
+}
+
+.chat-message.markdown pre {
+    background: #e6ebf2;
+    border: 1px solid #cfdae7;
+    border-radius: 8px;
+    overflow-x: auto;
+    padding: 10px 12px;
+}
+
+.chat-message.markdown pre code {
+    padding: 0;
+    background: transparent;
+}
+
+.chat-message.markdown blockquote {
+    border-left: 3px solid #b9c8db;
+    padding-left: 10px;
+    color: #526980;
+}
+
+.chat-message.markdown .table-wrap {
+    overflow-x: auto;
+}
+
+.chat-message.markdown table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 420px;
+}
+
+.chat-message.markdown th,
+.chat-message.markdown td {
+    border: 1px solid #ccd6e2;
+    padding: 7px 8px;
+    text-align: left;
+    vertical-align: top;
+    overflow-wrap: break-word;
+    word-break: normal;
+}
+
+.chat-message.markdown th {
+    background: #e8eef6;
+    color: #344a62;
+    font-weight: 700;
+}
+
+.chat-message.markdown a {
+    color: #23639b;
+    text-decoration: underline;
 }
 
 .chat-message.user {
@@ -443,7 +636,7 @@ body {
     }
 
     .logo-text {
-        font-size: 12px;
+        font-size: 14px;
     }
 
     .chat-intro h1 {
@@ -456,7 +649,7 @@ body {
 
     .nav-item {
         min-height: 40px;
-        font-size: 12px;
+        font-size: 13px;
     }
 
     .logo-link {
@@ -466,6 +659,7 @@ body {
     .logo-circle {
         width: 44px;
         height: 44px;
+        flex: 0 0 44px;
     }
 
     .logo-circle svg {
@@ -475,6 +669,10 @@ body {
 }
 
 @media (max-width: 760px) {
+    .sidebar-toggle-link {
+        display: none;
+    }
+
     .missionchat-layout {
         grid-template-columns: 1fr;
         --chat-content-width: 100%;

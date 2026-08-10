@@ -21,6 +21,17 @@
     let conversationId = sessionStorage.getItem(STORAGE_KEY) || "";
     let pending = false;
     let abortController = null;
+    const markdownRendererAvailable = Boolean(
+        window.marked && typeof window.marked.parse === "function"
+            && window.DOMPurify && typeof window.DOMPurify.sanitize === "function"
+    );
+
+    if (markdownRendererAvailable && typeof window.marked.setOptions === "function") {
+        window.marked.setOptions({
+            gfm: true,
+            breaks: true
+        });
+    }
 
     function toSuggestionText(button) {
         const cloned = button.cloneNode(true);
@@ -72,10 +83,58 @@
         threadEl.scrollTop = threadEl.scrollHeight;
     }
 
+    function renderMarkdownToSafeHtml(markdownText) {
+        if (!markdownRendererAvailable) {
+            return "";
+        }
+
+        try {
+            const rawHtml = window.marked.parse(markdownText || "");
+            if (!rawHtml || !rawHtml.trim()) {
+                return "";
+            }
+            return window.DOMPurify.sanitize(rawHtml, {
+                USE_PROFILES: {html: true},
+                FORBID_TAGS: ["style", "script", "iframe", "object", "embed", "form"]
+            });
+        } catch (error) {
+            return "";
+        }
+    }
+
+    function decorateRenderedMessage(messageEl) {
+        messageEl.querySelectorAll("a[href]").forEach(function (linkEl) {
+            linkEl.setAttribute("target", "_blank");
+            linkEl.setAttribute("rel", "noopener noreferrer");
+        });
+
+        Array.from(messageEl.querySelectorAll("table")).forEach(function (tableEl) {
+            if (!tableEl.parentNode) {
+                return;
+            }
+            const wrapper = document.createElement("div");
+            wrapper.classList.add("table-wrap");
+            tableEl.parentNode.insertBefore(wrapper, tableEl);
+            wrapper.appendChild(tableEl);
+        });
+    }
+
+    function renderMarkdownAssistantContent(messageEl, content) {
+        const safeHtml = renderMarkdownToSafeHtml(content);
+        if (!safeHtml) {
+            messageEl.textContent = content;
+            return;
+        }
+
+        messageEl.classList.add("markdown");
+        messageEl.innerHTML = safeHtml;
+        decorateRenderedMessage(messageEl);
+    }
+
     function renderAssistantContent(messageEl, content) {
         const structured = parseJsonContent(content);
         if (!structured) {
-            messageEl.textContent = content;
+            renderMarkdownAssistantContent(messageEl, content);
             return;
         }
 
@@ -160,6 +219,10 @@
         const servers = payload && Array.isArray(payload.servers) ? payload.servers : [];
         if (!payload || !payload.registered || servers.length === 0) {
             mcpStatusBarEl.classList.add("is-empty");
+            const emptyChip = document.createElement("span");
+            emptyChip.className = "mcp-chip warning";
+            emptyChip.textContent = "none registered";
+            mcpStatusBarEl.appendChild(emptyChip);
             return;
         }
 

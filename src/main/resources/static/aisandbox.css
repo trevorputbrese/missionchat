@@ -69,6 +69,7 @@ body {
 .logo-circle {
     width: 52px;
     height: 52px;
+    flex: 0 0 52px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -87,7 +88,7 @@ body {
 
 .logo-text {
     color: #355071;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 700;
     letter-spacing: 0.01em;
 }
@@ -111,7 +112,7 @@ body {
     border: 1px solid transparent;
     color: #415061;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 600;
     letter-spacing: 0.01em;
     transition: background-color 120ms ease-in-out, border-color 120ms ease-in-out, color 120ms ease-in-out;
@@ -143,14 +144,14 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     flex: 0 0 auto;
 }
 
 .nav-icon svg {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     fill: none;
     stroke: currentColor;
     stroke-width: 1.9;
@@ -166,6 +167,33 @@ body {
 .nav-label {
     flex: 1;
     text-align: left;
+}
+
+body.sidebar-collapsed .aisandbox-layout {
+    grid-template-columns: 86px minmax(0, 1fr);
+}
+
+body.sidebar-collapsed .sidebar .logo-text,
+body.sidebar-collapsed .sidebar .nav-label {
+    display: none;
+}
+
+body.sidebar-collapsed .sidebar .logo-link {
+    justify-content: center;
+    padding: 8px 4px;
+}
+
+body.sidebar-collapsed .sidebar .nav-item {
+    justify-content: center;
+    padding: 0;
+}
+
+body.sidebar-collapsed .sidebar .sidebar-nav {
+    padding: 6px;
+}
+
+body.sidebar-collapsed .sidebar .sidebar-footer {
+    padding: 8px 6px;
 }
 
 .workspace {
@@ -190,27 +218,46 @@ body {
     gap: 8px;
 }
 
-.icon-button {
-    width: 26px;
-    height: 26px;
+.sidebar-toggle-link {
     border: 0;
-    border-radius: 7px;
     background: transparent;
+    color: #1f4774;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: #6f7b8a;
-    cursor: default;
+    padding: 0;
+    margin: 0;
+    font-size: 0;
+    line-height: 1;
+    appearance: none;
+    box-shadow: none;
+    cursor: pointer;
+    transition: color 120ms ease-in-out, transform 120ms ease-in-out;
 }
 
-.icon-button svg {
-    width: 18px;
-    height: 18px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+.sidebar-toggle-link::before {
+    content: "\2630";
+    font-size: 28px;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.sidebar-toggle-link:hover {
+    color: #183f68;
+}
+
+.sidebar-toggle-link:active {
+    transform: translateY(1px);
+}
+
+.sidebar-toggle-link:focus-visible {
+    outline: 2px solid #7ea5d1;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+.sidebar-toggle-link[aria-expanded="false"] {
+    color: #355980;
 }
 
 .status-chip {
@@ -327,6 +374,14 @@ body {
 }
 
 @media (max-width: 1100px) {
+    .logo-text {
+        font-size: 14px;
+    }
+
+    .nav-item {
+        font-size: 13px;
+    }
+
     .hero-card h1 {
         font-size: 30px;
     }
@@ -337,6 +392,10 @@ body {
 }
 
 @media (max-width: 920px) {
+    .sidebar-toggle-link {
+        display: none;
+    }
+
     .aisandbox-layout {
         grid-template-columns: 86px minmax(0, 1fr);
     }

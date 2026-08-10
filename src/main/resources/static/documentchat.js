@@ -30,6 +30,17 @@
     let docsBusy = false;
     let abortController = null;
     let ragAvailable = false;
+    const markdownRendererAvailable = Boolean(
+        window.marked && typeof window.marked.parse === "function"
+            && window.DOMPurify && typeof window.DOMPurify.sanitize === "function"
+    );
+
+    if (markdownRendererAvailable && typeof window.marked.setOptions === "function") {
+        window.marked.setOptions({
+            gfm: true,
+            breaks: true
+        });
+    }
 
     function toSuggestionText(button) {
         const cloned = button.cloneNode(true);
@@ -85,6 +96,42 @@
         }
     }
 
+    function renderMarkdownToSafeHtml(markdownText) {
+        if (!markdownRendererAvailable) {
+            return "";
+        }
+
+        try {
+            const rawHtml = window.marked.parse(markdownText || "");
+            if (!rawHtml || !rawHtml.trim()) {
+                return "";
+            }
+            return window.DOMPurify.sanitize(rawHtml, {
+                USE_PROFILES: {html: true},
+                FORBID_TAGS: ["style", "script", "iframe", "object", "embed", "form"]
+            });
+        } catch (error) {
+            return "";
+        }
+    }
+
+    function decorateRenderedMessage(contentEl) {
+        contentEl.querySelectorAll("a[href]").forEach(function (linkEl) {
+            linkEl.setAttribute("target", "_blank");
+            linkEl.setAttribute("rel", "noopener noreferrer");
+        });
+
+        Array.from(contentEl.querySelectorAll("table")).forEach(function (tableEl) {
+            if (!tableEl.parentNode) {
+                return;
+            }
+            const wrapper = document.createElement("div");
+            wrapper.classList.add("table-wrap");
+            tableEl.parentNode.insertBefore(wrapper, tableEl);
+            wrapper.appendChild(tableEl);
+        });
+    }
+
     function appendMessage(role, content, isError, citations) {
         const messageEl = document.createElement("article");
         messageEl.classList.add("chat-message", role);
@@ -93,7 +140,19 @@
         }
 
         const bodyEl = document.createElement("div");
-        bodyEl.textContent = content;
+        bodyEl.classList.add("message-body");
+        if (role === "assistant" && !isError) {
+            const safeHtml = renderMarkdownToSafeHtml(content);
+            if (safeHtml) {
+                messageEl.classList.add("markdown");
+                bodyEl.innerHTML = safeHtml;
+                decorateRenderedMessage(bodyEl);
+            } else {
+                bodyEl.textContent = content;
+            }
+        } else {
+            bodyEl.textContent = content;
+        }
         messageEl.appendChild(bodyEl);
 
         if (role === "assistant" && Array.isArray(citations) && citations.length > 0) {

@@ -7,6 +7,7 @@
     const workspaceMain = document.querySelector(".workspace-main");
     const introSection = document.getElementById("chatIntro");
     const suggestionsSection = document.getElementById("chatSuggestions");
+    const modelStatusBarEl = document.getElementById("modelStatusBar");
     const suggestionButtons = Array.from(document.querySelectorAll(".suggestion-card"));
     const statusEl = document.getElementById("chatStatus");
     const threadEl = document.getElementById("chatThread");
@@ -20,6 +21,17 @@
     let conversationId = sessionStorage.getItem(STORAGE_KEY) || "";
     let pending = false;
     let abortController = null;
+    const markdownRendererAvailable = Boolean(
+        window.marked && typeof window.marked.parse === "function"
+            && window.DOMPurify && typeof window.DOMPurify.sanitize === "function"
+    );
+
+    if (markdownRendererAvailable && typeof window.marked.setOptions === "function") {
+        window.marked.setOptions({
+            gfm: true,
+            breaks: true
+        });
+    }
 
     function toSuggestionText(button) {
         const cloned = button.cloneNode(true);
@@ -33,6 +45,54 @@
     function setStatus(message, isError) {
         statusEl.textContent = message || "";
         statusEl.classList.toggle("error", Boolean(isError));
+    }
+
+    function renderModelStatusBar(payload) {
+        if (!modelStatusBarEl) {
+            return;
+        }
+
+        modelStatusBarEl.innerHTML = "";
+
+        const heading = document.createElement("span");
+        heading.className = "model-heading";
+        heading.textContent = "AI Model:";
+        modelStatusBarEl.appendChild(heading);
+
+        const modelName = payload && typeof payload.modelName === "string" ? payload.modelName.trim() : "";
+        const chip = document.createElement("span");
+        chip.className = "model-chip";
+        if (payload && payload.available && modelName) {
+            chip.textContent = modelName;
+        } else {
+            chip.classList.add("unavailable");
+            chip.textContent = "not available";
+        }
+        modelStatusBarEl.appendChild(chip);
+    }
+
+    async function loadModelStatus() {
+        if (!modelStatusBarEl) {
+            return;
+        }
+
+        try {
+            const response = await fetch("/api/chat/model/status", {
+                method: "GET",
+                headers: {
+                    "Accept": "application/json"
+                }
+            });
+            if (!response.ok) {
+                renderModelStatusBar({available: false, modelName: null});
+                return;
+            }
+
+            const payload = await response.json();
+            renderModelStatusBar(payload);
+        } catch (error) {
+            renderModelStatusBar({available: false, modelName: null});
+        }
     }
 
     function setPending(value) {
@@ -54,13 +114,62 @@
         }
     }
 
+    function renderMarkdownToSafeHtml(markdownText) {
+        if (!markdownRendererAvailable) {
+            return "";
+        }
+
+        try {
+            const rawHtml = window.marked.parse(markdownText || "");
+            if (!rawHtml || !rawHtml.trim()) {
+                return "";
+            }
+            return window.DOMPurify.sanitize(rawHtml, {
+                USE_PROFILES: {html: true},
+                FORBID_TAGS: ["style", "script", "iframe", "object", "embed", "form"]
+            });
+        } catch (error) {
+            return "";
+        }
+    }
+
+    function decorateRenderedMessage(messageEl) {
+        messageEl.querySelectorAll("a[href]").forEach(function (linkEl) {
+            linkEl.setAttribute("target", "_blank");
+            linkEl.setAttribute("rel", "noopener noreferrer");
+        });
+
+        Array.from(messageEl.querySelectorAll("table")).forEach(function (tableEl) {
+            if (!tableEl.parentNode) {
+                return;
+            }
+            const wrapper = document.createElement("div");
+            wrapper.classList.add("table-wrap");
+            tableEl.parentNode.insertBefore(wrapper, tableEl);
+            wrapper.appendChild(tableEl);
+        });
+    }
+
     function appendMessage(role, content, isError) {
         const messageEl = document.createElement("article");
         messageEl.classList.add("chat-message", role);
         if (isError) {
             messageEl.classList.add("error");
         }
-        messageEl.textContent = content;
+
+        if (role === "assistant" && !isError) {
+            const safeHtml = renderMarkdownToSafeHtml(content);
+            if (safeHtml) {
+                messageEl.classList.add("markdown");
+                messageEl.innerHTML = safeHtml;
+                decorateRenderedMessage(messageEl);
+            } else {
+                messageEl.textContent = content;
+            }
+        } else {
+            messageEl.textContent = content;
+        }
+
         threadEl.appendChild(messageEl);
         threadEl.scrollTop = threadEl.scrollHeight;
     }
@@ -163,5 +272,7 @@
         }
     });
 
+    renderModelStatusBar({available: false, modelName: null});
+    loadModelStatus();
     setPending(false);
 })();
