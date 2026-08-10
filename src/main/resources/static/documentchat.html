@@ -4,7 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DocumentsChat</title>
-    <link rel="stylesheet" href="/documentchat.css?v=20260325-01">
+    <style>
+        /* Prevent brief default black SVG fills before documentchat.css is applied. */
+        .documentchat-layout svg path,
+        .documentchat-layout svg circle,
+        .documentchat-layout svg rect {
+            fill: none;
+        }
+    </style>
+    <link rel="stylesheet" href="/documentchat.css?v=20260327-01">
 </head>
 <body>
 <div class="classification-banner">SENSITIVE BUT UNCLASSIFIED</div>
@@ -18,7 +26,10 @@
                         <path d="M16 33 L22 26 L27 34 L32 21 L37 39 L42 27 L48 33"></path>
                     </svg>
                 </span>
-                <span class="logo-text">DocumentsChat</span>
+                <span class="logo-text logo-text-stacked">
+                    <span>Documents</span>
+                    <span>Chat</span>
+                </span>
             </a>
         </div>
 
@@ -91,26 +102,7 @@
     <section class="workspace">
         <header class="workspace-topbar">
             <div class="topbar-group">
-                <button class="icon-button" type="button" aria-label="Open menu">
-                    <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
-                </button>
-                <button class="icon-button" type="button" aria-label="Start new chat">
-                    <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
-                </button>
-                <button class="icon-button" type="button" aria-label="History">
-                    <svg viewBox="0 0 24 24"><path d="M12 7v6l4 2"></path><circle cx="12" cy="12" r="8"></circle></svg>
-                </button>
-            </div>
-            <div class="topbar-group">
-                <button class="icon-button" type="button" aria-label="Like">
-                    <svg viewBox="0 0 24 24"><path d="M9 11V6l4-2v7h6l-1 9H8l1-9z"></path></svg>
-                </button>
-                <button class="icon-button" type="button" aria-label="Dislike">
-                    <svg viewBox="0 0 24 24"><path d="M15 13v5l-4 2v-7H5l1-9h10l-1 9z"></path></svg>
-                </button>
-                <button class="icon-button" type="button" aria-label="Information">
-                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 10v7"></path><circle cx="12" cy="7" r="1"></circle></svg>
-                </button>
+                <button class="sidebar-toggle-link" type="button" data-sidebar-toggle aria-expanded="true" aria-label="Collapse menu" title="Collapse menu"></button>
             </div>
         </header>
         <div class="workspace-body">
@@ -192,6 +184,9 @@
         </div>
     </section>
 </div>
-<script src="/documentchat.js?v=20260325-01"></script>
+<script src="/sidebar-toggle.js?v=20260330-02"></script>
+<script src="/vendor/marked.min.js?v=20260327-01"></script>
+<script src="/vendor/purify.min.js?v=20260327-01"></script>
+<script src="/documentchat.js?v=20260327-01"></script>
 </body>
 </html>

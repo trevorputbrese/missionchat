@@ -1,0 +1,5 @@
+  services:
+  - gpt-oss-mission-chat
+  - postgres-mcp-server 
+  - missionchat-embeddings-model
+  - missionchat-vectordb    
